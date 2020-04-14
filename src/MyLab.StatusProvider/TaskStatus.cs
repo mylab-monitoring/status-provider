@@ -21,6 +21,11 @@ namespace MyLab.StatusProvider
         public StatusError LastTimeError { get; set; }
 
         /// <summary>
+        /// Determines that task perform itself logic at this time
+        /// </summary>
+        public bool Processing { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of <see cref="TaskStatus"/>
         /// </summary>
         public TaskStatus()
@@ -36,6 +41,7 @@ namespace MyLab.StatusProvider
             LastTimeDuration = origin.LastTimeDuration;
             LastTimeStart = origin.LastTimeStart;
             LastTimeError = origin.LastTimeError;
+            Processing = origin.Processing;
         }
     }
 }
