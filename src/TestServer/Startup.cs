@@ -22,7 +22,7 @@ namespace TestServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddStatusProviding();
+            services.AddApiStatusProviding();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +42,7 @@ namespace TestServer
                 endpoints.MapControllers();
             });
 
-            app.AddStatusProviding();
+            app.AddStatusApi();
         }
     }
 }

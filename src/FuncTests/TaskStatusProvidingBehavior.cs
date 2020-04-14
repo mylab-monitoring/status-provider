@@ -37,7 +37,8 @@ namespace FuncTests
             var status = await GetStatus(cl);
 
             //Assert
-            Assert.True(status.LastTimeStart.AddSeconds(1) > DateTime.Now);
+            Assert.NotNull(status.LastTimeStart);
+            Assert.True(status.LastTimeStart.Value.AddSeconds(1) > DateTime.Now);
             Assert.Null(status.LastTimeDuration);
             Assert.Null(status.LastTimeError);
             Assert.True(status.Processing);
