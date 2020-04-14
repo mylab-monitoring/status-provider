@@ -4,5 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyLab.StatusProvider\MyLab.StatusProvider.csproj" />
+  </ItemGroup>
+
 
 </Project>
