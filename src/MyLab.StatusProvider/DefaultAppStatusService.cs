@@ -23,6 +23,7 @@ namespace MyLab.StatusProvider
             SetVersion(srv._status);
 
             srv._status.StartAt = DateTime.Now;
+            srv._status.StartAt = DateTime.Now;
 
             return srv;
         }
@@ -76,6 +77,7 @@ namespace MyLab.StatusProvider
                 _status.Task = new TaskStatus();
             _status.Task.LastTimeStart = DateTime.Now;
             _status.Task.LastTimeDuration = null;
+            _status.Task.Processing = true;
         }
 
         public void TaskLogicError(StatusError err)
@@ -84,6 +86,7 @@ namespace MyLab.StatusProvider
                 _status.Task = new TaskStatus();
             _status.Task.LastTimeError = err;
             _status.Task.LastTimeDuration = DateTime.Now - _status.Task.LastTimeStart;
+            _status.Task.Processing = false;
         }
 
         public void TaskLogicCompleted()
@@ -92,6 +95,7 @@ namespace MyLab.StatusProvider
                 _status.Task = new TaskStatus();
             _status.Task.LastTimeError = null;
             _status.Task.LastTimeDuration = DateTime.Now - _status.Task.LastTimeStart;
+            _status.Task.Processing = false;
         }
 
         public void QueueConnected(string queueName)

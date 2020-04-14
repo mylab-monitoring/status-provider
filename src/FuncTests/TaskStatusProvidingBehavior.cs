@@ -40,6 +40,7 @@ namespace FuncTests
             Assert.True(status.LastTimeStart.AddSeconds(1) > DateTime.Now);
             Assert.Null(status.LastTimeDuration);
             Assert.Null(status.LastTimeError);
+            Assert.True(status.Processing);
         }
 
         [Fact]
@@ -57,6 +58,7 @@ namespace FuncTests
 
             //Assert
             Assert.NotNull(status.LastTimeDuration);
+            Assert.False(status.Processing);
         }
 
         [Fact]
@@ -77,6 +79,7 @@ namespace FuncTests
             //Assert
             Assert.NotNull(status.LastTimeError);
             Assert.Equal("foo", status.LastTimeError.Message);
+            Assert.False(status.Processing);
         }
 
         private async Task<TaskStatus> GetStatus(HttpClient client)
