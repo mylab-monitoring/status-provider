@@ -10,7 +10,7 @@ namespace MyLab.StatusProvider
         /// <summary>
         /// Last time when an application logic was started
         /// </summary>
-        public DateTime LastTimeStart { get; set; }
+        public DateTime? LastTimeStart { get; set; }
         /// <summary>
         /// Duration of application task logic performing
         /// </summary>

@@ -28,6 +28,24 @@ namespace MyLab.StatusProvider
             return srv;
         }
 
+        public static DefaultAppStatusService CreateForTask()
+        {
+            var srv = Create();
+
+            srv._status.Task = new TaskStatus();
+
+            return srv;
+        }
+
+        public static DefaultAppStatusService CreateForMqConsumer()
+        {
+            var srv = Create();
+
+            srv._status.Mq = new QueueConsumerStatus();
+
+            return srv;
+        }
+
         private static void SetVersion(ApplicationStatus status)
         {
             var envVer = Environment.GetEnvironmentVariable("APP_VERSION");
