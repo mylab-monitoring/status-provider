@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MyLab.StatusProvider
@@ -31,11 +32,11 @@ namespace MyLab.StatusProvider
         {
             return services.AddSingleton<IAppStatusService>(DefaultAppStatusService.CreateForMqConsumer());
         }
-
+        
         /// <summary>
         /// Integrate status url handling
         /// </summary>
-        public static void AddStatusApi(this IApplicationBuilder app, string path = null)
+        public static void UseStatusApi(this IApplicationBuilder app, string path = null)
         {
             app.MapWhen(ctx =>
                     ctx.Request.Path == (path ?? "/status") &&
@@ -44,6 +45,15 @@ namespace MyLab.StatusProvider
             {
                 appB.Run(async context => await StatusProviderUrlHandler.Handle(app, context));
             });
+        }
+
+        /// <summary>
+        /// Integrate status url handling
+        /// </summary>
+        [Obsolete("Yse 'UseStatusApi' instead")]
+        public static void AddStatusApi(this IApplicationBuilder app, string path = null)
+        {
+            UseStatusApi(app, path);
         }
     }
 }
