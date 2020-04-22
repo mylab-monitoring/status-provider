@@ -28,24 +28,6 @@ namespace MyLab.StatusProvider
             return srv;
         }
 
-        public static DefaultAppStatusService CreateForTask()
-        {
-            var srv = Create();
-
-            srv._status.Task = new TaskStatus();
-
-            return srv;
-        }
-
-        public static DefaultAppStatusService CreateForMqConsumer()
-        {
-            var srv = Create();
-
-            srv._status.Mq = new QueueConsumerStatus();
-
-            return srv;
-        }
-
         private static void SetVersion(ApplicationStatus status)
         {
             var envVer = Environment.GetEnvironmentVariable("APP_VERSION");
@@ -89,93 +71,23 @@ namespace MyLab.StatusProvider
             _status.Host = host;
         }
 
-        public void TaskLogicStarted()
+        public T RegSubStatus<T>() 
+            where T : class, ICloneable, new()
         {
-            if(_status.Task == null)
-                _status.Task = new TaskStatus();
-            _status.Task.LastTimeStart = DateTime.Now;
-            _status.Task.LastTimeDuration = null;
-            _status.Task.Processing = true;
-        }
+            var key = typeof(T).Name;
+            T resSubStatus;
 
-        public void TaskLogicError(StatusError err)
-        {
-            if (_status.Task == null)
-                _status.Task = new TaskStatus();
-            _status.Task.LastTimeError = err;
-            _status.Task.LastTimeDuration = DateTime.Now - _status.Task.LastTimeStart;
-            _status.Task.Processing = false;
-        }
+            if(!_status.SubStatuses.TryGetValue(key, out var subStatus))
+            {
+                resSubStatus = new T();
+                _status.SubStatuses.Add(key, resSubStatus);
+            }
+            else
+            {
+                resSubStatus = (T) subStatus;
+            }
 
-        public void TaskLogicCompleted()
-        {
-            if (_status.Task == null)
-                _status.Task = new TaskStatus();
-            _status.Task.LastTimeError = null;
-            _status.Task.LastTimeDuration = DateTime.Now - _status.Task.LastTimeStart;
-            _status.Task.Processing = false;
-        }
-
-        public void QueueConnected(string queueName)
-        {
-            if (_status.Mq == null)
-                _status.Mq = new QueueConsumerStatus();
-
-            var queues = _status.Mq.Queues != null
-                ? new List<string>(_status.Mq.Queues) {queueName}
-                : new List<string> { queueName };
-
-            _status.Mq.Queues = queues.ToArray();
-        }
-
-        public void IncomingMqMessageReceived(string srcQueue)
-        {
-            if (_status.Mq == null)
-                _status.Mq = new QueueConsumerStatus();
-
-            _status.Mq.LastIncomingMessageTime = DateTime.Now;
-            _status.Mq.LastIncomingMessageQueue = srcQueue;
-        }
-
-        public void IncomingMqMessageProcessed()
-        {
-            if (_status.Mq == null)
-                _status.Mq = new QueueConsumerStatus();
-
-            _status.Mq.LastIncomingMessageError= null;
-        }
-
-        public void IncomingMqMessageError(StatusError e)
-        {
-            if (_status.Mq == null)
-                _status.Mq = new QueueConsumerStatus();
-
-            _status.Mq.LastIncomingMessageError = e;
-        }
-
-        public void OutgoingMessageStartSending(string queueName)
-        {
-            if (_status.Mq == null)
-                _status.Mq = new QueueConsumerStatus();
-
-            _status.Mq.LastOutgoingMessageTime = DateTime.Now;
-            _status.Mq.LastOutgoingMessageQueue = queueName;
-        }
-
-        public void OutgoingMessageSent()
-        {
-            if (_status.Mq == null)
-                _status.Mq = new QueueConsumerStatus();
-
-            _status.Mq.LastOutgoingMessageError = null;
-        }
-
-        public void OutgoingMessageSendingError(StatusError e)
-        {
-            if (_status.Mq == null)
-                _status.Mq = new QueueConsumerStatus();
-
-            _status.Mq.LastOutgoingMessageError = e;
+            return resSubStatus;
         }
     }
 }

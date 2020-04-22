@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyLab.StatusProvider;
+using Newtonsoft.Json;
 
 namespace TestServer
 {
@@ -22,7 +23,7 @@ namespace TestServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddApiStatusProviding();
+            services.AddAppStatusProviding();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,16 +34,18 @@ namespace TestServer
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
-            app.UseStatusApi();
+            app.UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                })
+                .UseStatusApi(serializerSettings: new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    NullValueHandling = NullValueHandling.Ignore,
+                    TypeNameHandling = TypeNameHandling.All
+                });
         }
     }
 }

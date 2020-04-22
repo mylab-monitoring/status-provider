@@ -5,9 +5,23 @@ using Newtonsoft.Json;
 
 namespace MyLab.StatusProvider
 {
-    internal class StatusProviderUrlHandler
+    class StatusProviderUrlHandler
     {
-        public static async Task Handle(IApplicationBuilder app, HttpContext context)
+        private readonly JsonSerializerSettings _serializerSettings;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="StatusProviderUrlHandler"/>
+        /// </summary>
+        public StatusProviderUrlHandler(JsonSerializerSettings serializerSettings)
+        {
+            _serializerSettings = serializerSettings ?? new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
+            };
+        }
+
+        public async Task Handle(IApplicationBuilder app, HttpContext context)
         {
             var statusService = (IAppStatusService)app.ApplicationServices.GetService(typeof(IAppStatusService));
             if (statusService == null)
@@ -18,11 +32,7 @@ namespace MyLab.StatusProvider
             else
             {
                 var status = statusService.GetStatus();
-                var statusTxt = JsonConvert.SerializeObject(status, new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented,
-                    NullValueHandling = NullValueHandling.Ignore
-                });
+                var statusTxt = JsonConvert.SerializeObject(status, _serializerSettings);
 
                 context.Response.StatusCode = 200;
                 context.Response.Headers.Append("Content-Type", "application/json");
