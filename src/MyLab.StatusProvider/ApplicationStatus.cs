@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyLab.StatusProvider
 {
@@ -33,20 +35,15 @@ namespace MyLab.StatusProvider
         /// Server hostname
         /// </summary>
         public string Host { get; set; }
-        /// <summary>
-        /// Task application specific status
-        /// </summary>
-        public TaskStatus Task { get; set; }
-        /// <summary>
-        ///  Queue consumer application specific status
-        /// </summary>
-        public QueueConsumerStatus Mq { get; set; }
+
+        public IDictionary<string, ICloneable> SubStatuses { get; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationStatus"/>
         /// </summary>
         public ApplicationStatus()
         {
+            SubStatuses = new Dictionary<string, ICloneable>();
         }
 
         /// <summary>
@@ -59,11 +56,19 @@ namespace MyLab.StatusProvider
             StartAt = origin.StartAt;
             Host = origin.Host;
 
-            if(origin.Task != null)
-                Task = new TaskStatus(origin.Task);
+            SubStatuses = origin.SubStatuses.ToDictionary(
+                ss => ss.Key,
+                ss => (ICloneable) ss.Value.Clone());
+        }
 
-            if (origin.Mq != null)
-                Mq = new QueueConsumerStatus(origin.Mq);
+        /// <summary>
+        /// Gets sub status of specified type
+        /// </summary>
+        public T GetSubStatus<T>()
+            where T : class
+        {
+            SubStatuses.TryGetValue(typeof(T).Name, out var ss);
+            return (T)ss;
         }
     }
 }

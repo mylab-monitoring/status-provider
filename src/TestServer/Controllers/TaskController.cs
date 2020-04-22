@@ -1,44 +1,44 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyLab.StatusProvider;
+﻿//using Microsoft.AspNetCore.Mvc;
+//using MyLab.StatusProvider;
 
-namespace TestServer.Controllers
-{
-    [ApiController]
-    [Route("[controller]")]
-    public class TaskController : ControllerBase
-    {
-        private readonly IAppStatusService _statusService;
+//namespace TestServer.Controllers
+//{
+//    [ApiController]
+//    [Route("[controller]")]
+//    public class TaskController : ControllerBase
+//    {
+//        private readonly IAppStatusService _statusService;
 
-        /// <summary>
-        /// Initializes a new instance of <see cref="TaskController"/>
-        /// </summary>
-        public TaskController(IAppStatusService statusService)
-        {
-            _statusService = statusService;
-        }
+//        /// <summary>
+//        /// Initializes a new instance of <see cref="TaskController"/>
+//        /// </summary>
+//        public TaskController(IAppStatusService statusService)
+//        {
+//            _statusService = statusService;
+//        }
 
-        [HttpPost("start")]
-        public IActionResult StartTask()
-        {
-            _statusService.TaskLogicStarted();
+//        [HttpPost("start")]
+//        public IActionResult StartTask()
+//        {
+//            _statusService.TaskLogicStarted();
 
-            return Ok();
-        }
+//            return Ok();
+//        }
 
-        [HttpPost("complete")]
-        public IActionResult EndTask()
-        {
-            _statusService.TaskLogicCompleted();
+//        [HttpPost("complete")]
+//        public IActionResult EndTask()
+//        {
+//            _statusService.TaskLogicCompleted();
 
-            return Ok();
-        }
+//            return Ok();
+//        }
 
-        [HttpPost("error")]
-        public IActionResult EndTask([FromQuery]string msg)
-        {
-            _statusService.TaskLogicError(new StatusError{ Message = msg});
+//        [HttpPost("error")]
+//        public IActionResult EndTask([FromQuery]string msg)
+//        {
+//            _statusService.TaskLogicError(new StatusError{ Message = msg});
 
-            return Ok();
-        }
-    }
-}
+//            return Ok();
+//        }
+//    }
+//}

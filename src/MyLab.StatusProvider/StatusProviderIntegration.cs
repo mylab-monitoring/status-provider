@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace MyLab.StatusProvider
 {
@@ -12,48 +13,27 @@ namespace MyLab.StatusProvider
         /// <summary>
         /// Integrates <see cref="IAppStatusService"/> singleton service for API
         /// </summary>
-        public static IServiceCollection AddApiStatusProviding(this IServiceCollection services)
+        public static IServiceCollection AddAppStatusProviding(this IServiceCollection services)
         {
             return services.AddSingleton<IAppStatusService>(DefaultAppStatusService.Create());
-        }
-
-        /// <summary>
-        /// Integrates <see cref="IAppStatusService"/> singleton service for Task-application
-        /// </summary>
-        public static IServiceCollection AddTaskStatusProviding(this IServiceCollection services)
-        {
-            return services.AddSingleton<IAppStatusService>(DefaultAppStatusService.CreateForTask());
-        }
-
-        /// <summary>
-        /// Integrates <see cref="IAppStatusService"/> singleton service for MQ consumer application
-        /// </summary>
-        public static IServiceCollection AddMqConsumerStatusProviding(this IServiceCollection services)
-        {
-            return services.AddSingleton<IAppStatusService>(DefaultAppStatusService.CreateForMqConsumer());
         }
         
         /// <summary>
         /// Integrate status url handling
         /// </summary>
-        public static void UseStatusApi(this IApplicationBuilder app, string path = null)
+        public static void UseStatusApi(this IApplicationBuilder app, string path = "/status", JsonSerializerSettings serializerSettings = null)
         {
+            if (path == null) throw new ArgumentNullException(nameof(path));
+
+            var urlHandler = new StatusProviderUrlHandler(serializerSettings);
+
             app.MapWhen(ctx =>
-                    ctx.Request.Path == (path ?? "/status") &&
+                    ctx.Request.Path == (path) &&
                     ctx.Request.Method == "GET",
                 appB =>
             {
-                appB.Run(async context => await StatusProviderUrlHandler.Handle(app, context));
+                appB.Run(async context => await urlHandler.Handle(app, context));
             });
-        }
-
-        /// <summary>
-        /// Integrate status url handling
-        /// </summary>
-        [Obsolete("Yse 'UseStatusApi' instead")]
-        public static void AddStatusApi(this IApplicationBuilder app, string path = null)
-        {
-            UseStatusApi(app, path);
         }
     }
 }
