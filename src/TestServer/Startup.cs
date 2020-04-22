@@ -42,7 +42,7 @@ namespace TestServer
                 endpoints.MapControllers();
             });
 
-            app.AddStatusApi();
+            app.UseStatusApi();
         }
     }
 }
