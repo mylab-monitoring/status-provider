@@ -40,12 +40,13 @@ namespace TestServer
                 {
                     endpoints.MapControllers();
                 })
-                .UseStatusApi(serializerSettings: new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented,
-                    NullValueHandling = NullValueHandling.Ignore,
-                    TypeNameHandling = TypeNameHandling.All
-                });
+                .UseStatusApi();
+            //.UseStatusApi(serializerSettings: new JsonSerializerSettings
+            //{
+            //    Formatting = Formatting.Indented,
+            //    NullValueHandling = NullValueHandling.Ignore,
+            //    TypeNameHandling = TypeNameHandling.All
+            //});
         }
     }
 }

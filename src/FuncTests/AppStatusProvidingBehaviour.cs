@@ -59,7 +59,7 @@ namespace FuncTests
             var status = await GetStatus();
 
             //Assert
-            Assert.Equal("testhost", status.Name);
+            Assert.Equal("ReSharperTestRunner64", status.Name);
         }
 
         [Fact]

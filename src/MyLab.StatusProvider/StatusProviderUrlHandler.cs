@@ -14,11 +14,7 @@ namespace MyLab.StatusProvider
         /// </summary>
         public StatusProviderUrlHandler(JsonSerializerSettings serializerSettings)
         {
-            _serializerSettings = serializerSettings ?? new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
-            };
+            _serializerSettings = serializerSettings ?? DefaultJsonSerializationSettings.Create();
         }
 
         public async Task Handle(IApplicationBuilder app, HttpContext context)
