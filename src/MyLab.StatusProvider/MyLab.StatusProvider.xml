@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyLab.StatusProvider</name>
+    </assembly>
+    <members>
+        <member name="T:MyLab.StatusProvider.ApplicationStatus">
+            <summary>
+            Contains application status information
+            </summary>
+        </member>
+        <member name="P:MyLab.StatusProvider.ApplicationStatus.Name">
+            <summary>
+            Application name
+            </summary>
+        </member>
+        <member name="P:MyLab.StatusProvider.ApplicationStatus.Version">
+            <summary>
+            Application version
+            </summary>
+        </member>
+        <member name="P:MyLab.StatusProvider.ApplicationStatus.ServerTime">
+            <summary>
+            Server time
+            </summary>
+        </member>
+        <member name="P:MyLab.StatusProvider.ApplicationStatus.StartAt">
+            <summary>
+            Application start time
+            </summary>
+        </member>
+        <member name="P:MyLab.StatusProvider.ApplicationStatus.UpTime">
+            <summary>
+            Duration since start time 
+            </summary>
+        </member>
+        <member name="P:MyLab.StatusProvider.ApplicationStatus.Host">
+            <summary>
+            Server hostname
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.ApplicationStatus.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.StatusProvider.ApplicationStatus"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.ApplicationStatus.#ctor(MyLab.StatusProvider.ApplicationStatus)">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.StatusProvider.ApplicationStatus"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.ApplicationStatus.GetSubStatus``1">
+            <summary>
+            Gets sub status of specified type
+            </summary>
+        </member>
+        <member name="T:MyLab.StatusProvider.IAppStatusService">
+            <summary>
+            Allow to work with application status
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.IAppStatusService.GetStatus">
+            <summary>
+            Provides an application status
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.IAppStatusService.SetAppVersion(System.String)">
+            <summary>
+            Sets application version
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.IAppStatusService.SetHost(System.String)">
+            <summary>
+            Sets host name
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.IAppStatusService.RegSubStatus``1">
+            <summary>
+            Adds sub status into application status
+            </summary>
+        </member>
+        <member name="T:MyLab.StatusProvider.StatusError">
+            <summary>
+            Contains error data
+            </summary>
+        </member>
+        <member name="P:MyLab.StatusProvider.StatusError.Message">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="P:MyLab.StatusProvider.StatusError.Description">
+            <summary>
+            Error description, i.e. stack trace
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.StatusError.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.StatusProvider.StatusError"/>
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.StatusError.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.StatusProvider.StatusError"/>
+            </summary>
+        </member>
+        <member name="T:MyLab.StatusProvider.StatusProviderIntegration">
+            <summary>
+            Extension methods for abilities integration
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.StatusProviderIntegration.AddAppStatusProviding(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Integrates <see cref="T:MyLab.StatusProvider.IAppStatusService"/> singleton service for API
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.StatusProviderIntegration.UseStatusApi(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Integrate status url handling
+            </summary>
+        </member>
+        <member name="M:MyLab.StatusProvider.StatusProviderUrlHandler.#ctor(Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Initializes a new instance of <see cref="T:MyLab.StatusProvider.StatusProviderUrlHandler"/>
+            </summary>
+        </member>
+    </members>
+</doc>
