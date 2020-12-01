@@ -10,6 +10,10 @@ namespace MyLab.StatusProvider
     public class ApplicationStatus
     {
         /// <summary>
+        /// Status provider lib version
+        /// </summary>
+        public string StatusProviderVersion { get; set; }
+        /// <summary>
         /// Application name
         /// </summary>
         public string Name { get; set; }
@@ -36,6 +40,11 @@ namespace MyLab.StatusProvider
         /// </summary>
         public string Host { get; set; }
 
+        /// <summary>
+        /// Config debug view
+        /// </summary>
+        public ConfigurationModel Configuration { get; set; }
+
         public IDictionary<string, ICloneable> SubStatuses { get; }
 
         /// <summary>
@@ -55,6 +64,8 @@ namespace MyLab.StatusProvider
             Version = origin.Version;
             StartAt = origin.StartAt;
             Host = origin.Host;
+            StatusProviderVersion = origin.StatusProviderVersion;
+            Configuration = origin.Configuration;
 
             SubStatuses = origin.SubStatuses.ToDictionary(
                 ss => ss.Key,

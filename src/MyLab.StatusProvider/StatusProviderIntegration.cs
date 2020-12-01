@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
@@ -13,9 +14,10 @@ namespace MyLab.StatusProvider
         /// <summary>
         /// Integrates <see cref="IAppStatusService"/> singleton service for API
         /// </summary>
-        public static IServiceCollection AddAppStatusProviding(this IServiceCollection services)
+        public static IServiceCollection AddAppStatusProviding(this IServiceCollection services, IConfigurationRoot configuration = null)
         {
-            return services.AddSingleton<IAppStatusService>(DefaultAppStatusService.Create());
+            if (services == null) throw new ArgumentNullException(nameof(services));
+            return services.AddSingleton<IAppStatusService>(DefaultAppStatusService.Create(configuration));
         }
         
         /// <summary>
