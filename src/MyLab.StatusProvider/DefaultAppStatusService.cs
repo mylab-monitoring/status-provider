@@ -2,30 +2,40 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 
 namespace MyLab.StatusProvider
 {
     class DefaultAppStatusService : IAppStatusService
     {
-        private readonly ApplicationStatus _status = new ApplicationStatus();
+        private readonly ApplicationStatus _status;
 
         DefaultAppStatusService()
         {
-            
+            _status = new ApplicationStatus
+            {
+                StatusProviderVersion =  typeof(DefaultAppStatusService).Assembly.GetName().Version?.ToString() ?? "[not specified]"
+            };
         }
 
-        public static DefaultAppStatusService Create()
+        public static DefaultAppStatusService Create(IConfigurationRoot configuration)
         {
             var srv = new DefaultAppStatusService();
 
             SetName(srv._status);
             SetHost(srv._status);
             SetVersion(srv._status);
+            SetConfig(srv._status, configuration);
 
             srv._status.StartAt = DateTime.Now;
             srv._status.StartAt = DateTime.Now;
 
             return srv;
+        }
+
+        private static void SetConfig(ApplicationStatus status, IConfigurationRoot configuration)
+        {
+            status.Configuration = ConfigurationModel.Create(configuration);
         }
 
         private static void SetVersion(ApplicationStatus status)
