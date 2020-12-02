@@ -48,7 +48,8 @@ namespace MyLab.StatusProvider
 
             var rootConfigModel = new ConfigurationModel();
 
-            RecurseChildren(rootConfigModel, root.GetChildren());
+            if(root != null)
+                RecurseChildren(rootConfigModel, root.GetChildren());
 
             return rootConfigModel;
         }

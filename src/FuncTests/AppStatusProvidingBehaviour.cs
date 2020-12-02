@@ -50,6 +50,25 @@ namespace FuncTests
         }
 
         [Fact]
+        public async Task ShouldProvideConfig()
+        {
+            //Arrange
+            var client = _clientFactory.CreateClient();
+
+            //Act
+            var resp = await client.GetAsync("/status/config");
+            var restStr = await resp.Content.ReadAsStringAsync();
+
+            _output.WriteLine(restStr);
+
+            var res = JsonConvert.DeserializeObject<ApplicationStatus>(restStr);
+
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
+            Assert.NotNull(res);
+        }
+
+        [Fact]
         public async Task ShouldProvideName()
         {
             //Arrange

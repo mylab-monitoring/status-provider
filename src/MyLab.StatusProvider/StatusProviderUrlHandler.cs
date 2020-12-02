@@ -7,13 +7,15 @@ namespace MyLab.StatusProvider
 {
     class StatusProviderUrlHandler
     {
+        private readonly StatusRequestDetector _detector;
         private readonly JsonSerializerSettings _serializerSettings;
 
         /// <summary>
         /// Initializes a new instance of <see cref="StatusProviderUrlHandler"/>
         /// </summary>
-        public StatusProviderUrlHandler(JsonSerializerSettings serializerSettings)
+        public StatusProviderUrlHandler(StatusRequestDetector detector, JsonSerializerSettings serializerSettings)
         {
+            _detector = detector;
             _serializerSettings = serializerSettings ?? DefaultJsonSerializationSettings.Create();
         }
 
@@ -28,8 +30,24 @@ namespace MyLab.StatusProvider
             else
             {
                 var status = statusService.GetStatus();
-                var statusTxt = JsonConvert.SerializeObject(status, _serializerSettings);
+                var path = _detector.DetectAndGetRelatedPath(context.Request);
 
+                object statusObj;
+
+                switch (path)
+                {
+                    case "config":
+                    case "/config":
+                        statusObj = status.Configuration;
+                        break;
+                    default:
+                    {
+                        statusObj = new ApplicationStatus(status) {Configuration = null};
+                    }
+                        break;
+                }
+
+                string statusTxt = JsonConvert.SerializeObject(statusObj, _serializerSettings);
                 context.Response.StatusCode = 200;
                 context.Response.Headers.Append("Content-Type", "application/json");
                 await context.Response.WriteAsync(statusTxt);

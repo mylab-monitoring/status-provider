@@ -23,7 +23,7 @@ namespace TestServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddAppStatusProviding();
+            services.AddAppStatusProviding(Configuration as IConfigurationRoot);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

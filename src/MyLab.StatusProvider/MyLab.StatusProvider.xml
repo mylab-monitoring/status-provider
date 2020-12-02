@@ -149,7 +149,7 @@
             Integrate status url handling
             </summary>
         </member>
-        <member name="M:MyLab.StatusProvider.StatusProviderUrlHandler.#ctor(Newtonsoft.Json.JsonSerializerSettings)">
+        <member name="M:MyLab.StatusProvider.StatusProviderUrlHandler.#ctor(MyLab.StatusProvider.StatusRequestDetector,Newtonsoft.Json.JsonSerializerSettings)">
             <summary>
             Initializes a new instance of <see cref="T:MyLab.StatusProvider.StatusProviderUrlHandler"/>
             </summary>

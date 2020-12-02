@@ -27,11 +27,11 @@ namespace MyLab.StatusProvider
         {
             if (path == null) throw new ArgumentNullException(nameof(path));
 
-            var urlHandler = new StatusProviderUrlHandler(serializerSettings);
-
+            var detector = new StatusRequestDetector(path);
+            var urlHandler = new StatusProviderUrlHandler(detector, serializerSettings);
+            
             app.MapWhen(ctx =>
-                    ctx.Request.Path == (path) &&
-                    ctx.Request.Method == "GET",
+                    detector.DetectAndGetRelatedPath(ctx.Request) != null,
                 appB =>
             {
                 appB.Run(async context => await urlHandler.Handle(app, context));
