@@ -90,6 +90,38 @@ namespace FuncTests
         }
 
         [Fact]
+        public async Task ShouldProvideLogExt()
+        {
+            //Arrange
+            var client = _clientFactory.CreateClient();
+
+            //Act
+            var resp = await client.GetAsync("/status/log-ext");
+            var restStr = await resp.Content.ReadAsStringAsync();
+
+            _output.WriteLine(restStr);
+
+            //var res = JsonConvert.DeserializeObject<LogEntity[]>(restStr);
+
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
+            Assert.NotNull(restStr);
+        }
+
+        [Fact]
+        public async Task ShouldNotProvideIfWrongPath()
+        {
+            //Arrange
+            var client = _clientFactory.CreateClient();
+
+            //Act
+            var resp = await client.GetAsync("/status/blabla");
+
+            //Assert
+            Assert.Equal(HttpStatusCode.NotFound, resp.StatusCode);
+        }
+
+        [Fact]
         public async Task ShouldProvideName()
         {
             //Arrange

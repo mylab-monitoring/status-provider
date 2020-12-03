@@ -35,12 +35,21 @@ namespace MyLab.StatusProvider
                 case "/log":
                     statusObj = ReturnLog(app);
                     break;
+                case "log-ext":
+                case "/log-ext":
+                    statusObj = ReturnLogExt(app);
+                    break;
                 case "config":
                 case "/config":
                     statusObj = ReturnConfig(app);
                     break;
-                default:
+                case "":
+                case "/":
+                case null:
                     statusObj = ReturnStatus(app);
+                    break;
+                default:
+                    statusObj = null;
                     break;
             }
 
@@ -58,11 +67,18 @@ namespace MyLab.StatusProvider
             }
         }
 
-        private object ReturnLog(IApplicationBuilder app)
+        private object ReturnLogExt(IApplicationBuilder app)
         {
             var logHolder = (StatusProviderLogHolder)app.ApplicationServices.GetService(typeof(StatusProviderLogHolder));
 
             return logHolder?.GetLogs().ToArray();
+        }
+
+        private object ReturnLog(IApplicationBuilder app)
+        {
+            var logHolder = (StatusProviderLogHolder)app.ApplicationServices.GetService(typeof(StatusProviderLogHolder));
+
+            return logHolder?.GetLogs().Select(l => $"[{l.DateTime:T}]({l.LogLevel.First()}) {l.Formatted}").ToArray();
         }
 
         object ReturnStatus(IApplicationBuilder app)
