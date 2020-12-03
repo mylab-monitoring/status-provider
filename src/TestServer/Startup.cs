@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MyLab.StatusProvider;
 using Newtonsoft.Json;
 
@@ -24,6 +25,7 @@ namespace TestServer
         {
             services.AddControllers();
             services.AddAppStatusProviding(Configuration as IConfigurationRoot);
+            services.AddLogging(builder => builder.AddConsole());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

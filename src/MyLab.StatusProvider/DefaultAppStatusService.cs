@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using MyLab.StatusProvider.Config;
 
 namespace MyLab.StatusProvider
 {
@@ -25,17 +26,11 @@ namespace MyLab.StatusProvider
             SetName(srv._status);
             SetHost(srv._status);
             SetVersion(srv._status);
-            SetConfig(srv._status, configuration);
 
             srv._status.StartAt = DateTime.Now;
             srv._status.StartAt = DateTime.Now;
 
             return srv;
-        }
-
-        private static void SetConfig(ApplicationStatus status, IConfigurationRoot configuration)
-        {
-            status.Configuration = ConfigurationModel.Create(configuration);
         }
 
         private static void SetVersion(ApplicationStatus status)

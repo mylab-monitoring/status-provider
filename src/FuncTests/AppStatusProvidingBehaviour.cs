@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
 using MyLab.StatusProvider;
+using MyLab.StatusProvider.Config;
+using MyLab.StatusProvider.Log;
 using Newtonsoft.Json;
 using TestServer;
 using Xunit;
@@ -61,11 +63,30 @@ namespace FuncTests
 
             _output.WriteLine(restStr);
 
-            var res = JsonConvert.DeserializeObject<ApplicationStatus>(restStr);
+            //var res = JsonConvert.DeserializeObject<ConfigurationModel>(restStr);
 
             //Assert
             Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
-            Assert.NotNull(res);
+            Assert.NotNull(restStr);
+        }
+
+        [Fact]
+        public async Task ShouldProvideLog()
+        {
+            //Arrange
+            var client = _clientFactory.CreateClient();
+
+            //Act
+            var resp = await client.GetAsync("/status/log");
+            var restStr = await resp.Content.ReadAsStringAsync();
+
+            _output.WriteLine(restStr);
+
+            //var res = JsonConvert.DeserializeObject<LogEntity[]>(restStr);
+
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
+            Assert.NotNull(restStr);
         }
 
         [Fact]

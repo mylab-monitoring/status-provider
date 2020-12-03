@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
-namespace MyLab.StatusProvider
+namespace MyLab.StatusProvider.Config
 {
     /// <summary>
     /// Contains configuration node

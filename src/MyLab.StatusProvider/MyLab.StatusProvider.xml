@@ -44,11 +44,6 @@
             Server hostname
             </summary>
         </member>
-        <member name="P:MyLab.StatusProvider.ApplicationStatus.Configuration">
-            <summary>
-            Config debug view
-            </summary>
-        </member>
         <member name="M:MyLab.StatusProvider.ApplicationStatus.#ctor">
             <summary>
             Initializes a new instance of <see cref="T:MyLab.StatusProvider.ApplicationStatus"/>
@@ -64,22 +59,22 @@
             Gets sub status of specified type
             </summary>
         </member>
-        <member name="T:MyLab.StatusProvider.ConfigurationModel">
+        <member name="T:MyLab.StatusProvider.Config.ConfigurationModel">
             <summary>
             Contains configuration node
             </summary>
         </member>
-        <member name="P:MyLab.StatusProvider.ConfigurationModel.Value">
+        <member name="P:MyLab.StatusProvider.Config.ConfigurationModel.Value">
             <summary>
             Configuration node value
             </summary>
         </member>
-        <member name="P:MyLab.StatusProvider.ConfigurationModel.Provider">
+        <member name="P:MyLab.StatusProvider.Config.ConfigurationModel.Provider">
             <summary>
             Configuration node provider
             </summary>
         </member>
-        <member name="M:MyLab.StatusProvider.ConfigurationModel.Create(Microsoft.Extensions.Configuration.IConfigurationRoot)">
+        <member name="M:MyLab.StatusProvider.Config.ConfigurationModel.Create(Microsoft.Extensions.Configuration.IConfigurationRoot)">
             <summary>
             Creates model from configuration
             </summary>
