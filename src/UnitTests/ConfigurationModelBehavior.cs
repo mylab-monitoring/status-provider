@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using MyLab.StatusProvider;
+using MyLab.StatusProvider.Config;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MyLab.StatusProvider.Log;
 using Newtonsoft.Json;
 
 namespace MyLab.StatusProvider
@@ -17,7 +19,13 @@ namespace MyLab.StatusProvider
         public static IServiceCollection AddAppStatusProviding(this IServiceCollection services, IConfigurationRoot configuration = null)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
-            return services.AddSingleton<IAppStatusService>(DefaultAppStatusService.Create(configuration));
+
+            var logHolder = new StatusProviderLogHolder();
+
+            return services
+                .AddSingleton<IAppStatusService>(DefaultAppStatusService.Create(configuration))
+                .AddLogging(logBuilder => logBuilder.AddProvider(new StatusProviderLoggerProvider(logHolder)))
+                .AddSingleton(logHolder);
         }
         
         /// <summary>
@@ -27,11 +35,11 @@ namespace MyLab.StatusProvider
         {
             if (path == null) throw new ArgumentNullException(nameof(path));
 
-            var urlHandler = new StatusProviderUrlHandler(serializerSettings);
-
+            var detector = new StatusRequestDetector(path);
+            var urlHandler = new StatusProviderUrlHandler(detector, serializerSettings);
+            
             app.MapWhen(ctx =>
-                    ctx.Request.Path == (path) &&
-                    ctx.Request.Method == "GET",
+                    detector.DetectAndGetRelatedPath(ctx.Request) != null,
                 appB =>
             {
                 appB.Run(async context => await urlHandler.Handle(app, context));

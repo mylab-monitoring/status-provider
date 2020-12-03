@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace MyLab.StatusProvider
+namespace MyLab.StatusProvider.Config
 {
     class ConfigurationModelConverter : JsonConverter
     {

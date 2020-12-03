@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
-namespace MyLab.StatusProvider
+namespace MyLab.StatusProvider.Config
 {
     /// <summary>
     /// Contains configuration node
@@ -48,7 +48,8 @@ namespace MyLab.StatusProvider
 
             var rootConfigModel = new ConfigurationModel();
 
-            RecurseChildren(rootConfigModel, root.GetChildren());
+            if(root != null)
+                RecurseChildren(rootConfigModel, root.GetChildren());
 
             return rootConfigModel;
         }
